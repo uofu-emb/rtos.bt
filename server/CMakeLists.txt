@@ -1,7 +1,6 @@
 # This is the main binary. List your C files here.
 add_executable(lab11_server
   picow_bt_example_freertos.c
-  picow_bt_example_common.c
   gatt_counter.c
 )
 

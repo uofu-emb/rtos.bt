@@ -30,7 +30,7 @@
  * THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
  * SUCH DAMAGE.
  *
- * Please inquire about commercial licensing options at 
+ * Please inquire about commercial licensing options at
  * contact@bluekitchen-gmbh.com
  *
  */
@@ -43,7 +43,7 @@
  * @text All newer operating systems provide GATT Client functionality.
  * The LE Counter examples demonstrates how to specify a minimal GATT Database
  * with a custom GATT Service and a custom Characteristic that sends periodic
- * notifications. 
+ * notifications.
  */
  // *****************************************************************************
 
@@ -62,14 +62,14 @@
  *
  * @text Listing MainConfiguration shows main application code.
  * It initializes L2CAP, the Security Manager and configures the ATT Server with the pre-compiled
- * ATT Database generated from $le_counter.gatt$. 
+ * ATT Database generated from $le_counter.gatt$.
  * Additionally, it enables the Battery Service Server with the current battery level.
- * Finally, it configures the advertisements 
- * and the heartbeat handler and boots the Bluetooth stack. 
+ * Finally, it configures the advertisements
+ * and the heartbeat handler and boots the Bluetooth stack.
  * In this example, the Advertisement contains the Flags attribute and the device name.
  * The flag 0x06 indicates: LE General Discoverable Mode and BR/EDR not supported.
  */
- 
+
 /* LISTING_START(MainConfiguration): Init L2CAP SM ATT Server and start heartbeat timer */
 static int  le_notification_enabled;
 static btstack_timer_source_t heartbeat;
@@ -77,28 +77,19 @@ static btstack_packet_callback_registration_t hci_event_callback_registration;
 static hci_con_handle_t con_handle;
 static uint8_t battery = 100;
 
-#ifdef ENABLE_GATT_OVER_CLASSIC
-static uint8_t gatt_service_buffer[70];
-#endif
-
 static void packet_handler (uint8_t packet_type, uint16_t channel, uint8_t *packet, uint16_t size);
 static uint16_t att_read_callback(hci_con_handle_t con_handle, uint16_t att_handle, uint16_t offset, uint8_t * buffer, uint16_t buffer_size);
 static int att_write_callback(hci_con_handle_t con_handle, uint16_t att_handle, uint16_t transaction_mode, uint16_t offset, uint8_t *buffer, uint16_t buffer_size);
 static void  heartbeat_handler(struct btstack_timer_source *ts);
 static void beat(void);
 
-// Flags general discoverable, BR/EDR supported (== not supported flag not set) when ENABLE_GATT_OVER_CLASSIC is enabled
-#ifdef ENABLE_GATT_OVER_CLASSIC
-#define APP_AD_FLAGS 0x02
-#else
 #define APP_AD_FLAGS 0x06
-#endif
 
 const uint8_t adv_data[] = {
     // Flags general discoverable
     0x02, BLUETOOTH_DATA_TYPE_FLAGS, APP_AD_FLAGS,
     // Name
-    0x0b, BLUETOOTH_DATA_TYPE_COMPLETE_LOCAL_NAME, 'L', 'E', ' ', 'C', 'o', 'u', 'n', 't', 'e', 'r', 
+    11, BLUETOOTH_DATA_TYPE_COMPLETE_LOCAL_NAME, 'A', 's', 'h', 't', 'o', 'n', ' ', 'B', 'L', 'E',
     // Incomplete List of 16-bit Service Class UUIDs -- FF10 - only valid for testing!
     0x03, BLUETOOTH_DATA_TYPE_INCOMPLETE_LIST_OF_16_BIT_SERVICE_CLASS_UUIDS, 0x10, 0xff,
 };
@@ -111,22 +102,8 @@ static void le_counter_setup(void){
     // setup SM: Display only
     sm_init();
 
-#ifdef ENABLE_GATT_OVER_CLASSIC
-    // init SDP, create record for GATT and register with SDP
-    sdp_init();
-    memset(gatt_service_buffer, 0, sizeof(gatt_service_buffer));
-    gatt_create_sdp_record(gatt_service_buffer, sdp_create_service_record_handle(), ATT_SERVICE_GATT_SERVICE_START_HANDLE, ATT_SERVICE_GATT_SERVICE_END_HANDLE);
-    btstack_assert(de_get_len( gatt_service_buffer) <= sizeof(gatt_service_buffer));
-    sdp_register_service(gatt_service_buffer);
-
-    // configure Classic GAP
-    gap_set_local_name("GATT Counter BR/EDR 00:00:00:00:00:00");
-    gap_ssp_set_io_capability(SSP_IO_CAPABILITY_DISPLAY_YES_NO);
-    gap_discoverable_control(1);
-#endif
-
     // setup ATT server
-    att_server_init(profile_data, att_read_callback, att_write_callback);    
+    att_server_init(profile_data, att_read_callback, att_write_callback);
 
     // setup battery service
     battery_service_server_init(battery);
@@ -191,10 +168,10 @@ static void heartbeat_handler(struct btstack_timer_source *ts){
 
     btstack_run_loop_set_timer(ts, HEARTBEAT_PERIOD_MS);
     btstack_run_loop_add_timer(ts);
-} 
+}
 /* LISTING_END */
 
-/* 
+/*
  * @section Packet Handler
  *
  * @text The packet handler is used to:
@@ -208,7 +185,7 @@ static void packet_handler (uint8_t packet_type, uint16_t channel, uint8_t *pack
     UNUSED(size);
 
     if (packet_type != HCI_EVENT_PACKET) return;
-    
+
     switch (hci_event_packet_get_type(packet)) {
         case HCI_EVENT_DISCONNECTION_COMPLETE:
             le_notification_enabled = 0;
@@ -285,7 +262,7 @@ int btstack_main(void)
 
     // turn on!
 	hci_power_control(HCI_POWER_ON);
-	    
+
     return 0;
 }
 /* EXAMPLE_END */

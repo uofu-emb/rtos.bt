@@ -8,13 +8,10 @@
 #include "pico/stdlib.h"
 #include "FreeRTOS.h"
 #include "task.h"
-
-#include "picow_bt_example_common.h"
-
-#if HAVE_LWIP
-#include "pico/lwip_freertos.h"
+#include "btstack.h"
+#include "btstack_event.h"
 #include "pico/cyw43_arch.h"
-#endif
+#include "picow_bt_example_common.h"
 
 #ifndef RUN_FREERTOS_ON_CORE
 #define RUN_FREERTOS_ON_CORE 0
@@ -23,87 +20,48 @@
 #define TEST_TASK_PRIORITY				( tskIDLE_PRIORITY + 2UL )
 #define BLINK_TASK_PRIORITY				( tskIDLE_PRIORITY + 1UL )
 
-#ifdef TEST_BLINK_TASK
-void blink_task(__unused void *params) {
-    printf("blink_task starts\n");
-    while (true) {
-#if 0 && configNUMBER_OF_CORES > 1
-        static int last_core_id;
-        if (portGET_CORE_ID() != last_core_id) {
-            last_core_id = portGET_CORE_ID();
-            printf("blinking now from core %d\n", last_core_id);
-        }
-#endif
-        hal_led_toggle();
-        vTaskDelay(200);
+int btstack_main(int argc, const char * argv[]);
+static btstack_packet_callback_registration_t hci_event_callback_registration;
+
+static void packet_handler(uint8_t packet_type, uint16_t channel, uint8_t *packet, uint16_t size){
+    UNUSED(size);
+    UNUSED(channel);
+    bd_addr_t local_addr;
+    if (packet_type != HCI_EVENT_PACKET) return;
+    switch(hci_event_packet_get_type(packet)){
+        case BTSTACK_EVENT_STATE:
+            if (btstack_event_state_get_state(packet) != HCI_STATE_WORKING) return;
+            gap_local_bd_addr(local_addr);
+            printf("BTstack up and running on %s.\n", bd_addr_to_str(local_addr));
+            break;
+        default:
+            break;
     }
 }
-#endif
 
-void main_task(__unused void *params) {
-
-    int res = picow_bt_example_init();
-    if (res){
-        return;
+void main_task(__unused void *params)
+{
+    // initialize CYW43 driver architecture
+    // (will enable BT if/because CYW43_ENABLE_BLUETOOTH == 1)
+    if (cyw43_arch_init()) {
+        printf("failed to initialise cyw43_arch\n");
+    } else {
+        // inform about BTstack state
+        hci_event_callback_registration.callback = &packet_handler;
+        hci_add_event_handler(&hci_event_callback_registration);
+        btstack_main(0, NULL);
     }
-
-// If we're using lwip but not via cyw43 (e.g. pan) we have to call this
-#if HAVE_LWIP && !CYW43_LWIP
-    lwip_freertos_init(cyw43_arch_async_context());
-#endif
-
-    picow_bt_example_main();
-
-#ifdef TEST_BLINK_TASK
-    xTaskCreate(blink_task, "BlinkThread", configMINIMAL_STACK_SIZE, NULL, BLINK_TASK_PRIORITY, NULL);
-#endif
 
     while(true) {
         vTaskDelay(1000);
     }
-
-#if HAVE_LWIP && !CYW43_LWIP
-    lwip_freertos_deinit(cyw43_arch_async_context());
-#endif
-}
-
-void vLaunch( void) {
-    TaskHandle_t task;
-    xTaskCreate(main_task, "TestMainThread", 1024, NULL, TEST_TASK_PRIORITY, &task);
-
-#if NO_SYS && configUSE_CORE_AFFINITY && configNUMBER_OF_CORES > 1
-    // we must bind the main task to one core (well at least while the init is called)
-    // (note we only do this in NO_SYS mode, because cyw43_arch_freertos
-    // takes care of it otherwise)
-    vTaskCoreAffinitySet(task, 1);
-#endif
-
-    /* Start the tasks and timer running. */
-    vTaskStartScheduler();
 }
 
 int main()
 {
     stdio_init_all();
-
-    /* Configure the hardware ready to run the demo. */
-    const char *rtos_name;
-#if ( configNUMBER_OF_CORES > 1 )
-    rtos_name = "FreeRTOS SMP";
-#else
-    rtos_name = "FreeRTOS";
-#endif
-
-#if ( configNUMBER_OF_CORES == 2 )
-    printf("Starting %s on both cores:\n", rtos_name);
-    vLaunch();
-#elif ( RUN_FREE_RTOS_ON_CORE == 1 )
-    printf("Starting %s on core 1:\n", rtos_name);
-    multicore_launch_core1(vLaunch);
-    while (true);
-#else
-    printf("Starting %s on core 0:\n", rtos_name);
-    vLaunch();
-#endif
+    TaskHandle_t task;
+    xTaskCreate(main_task, "TestMainThread", 1024, NULL, TEST_TASK_PRIORITY, &task);
+    vTaskStartScheduler();
     return 0;
 }
