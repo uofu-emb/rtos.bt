@@ -27,17 +27,11 @@ Our device uses a generic name when advertising. We need to distinguish ourselve
 1. Flash the program to your microcontroller. When you connect to the serial port, it should print out a message with the device address. "BTstack up and running on 28:CD:C1:0F:1D:DC."
 ![Task BTstack](pics/btstack_up_running.png "Task BTstack")
 1. You should see your device advertised with the name you specified.
-![Task Device Name](pics/ECE_6785_Gatt_Counter.png "Task Device Name")
+![Task Device Name](pics/local_name.png "Task Device Name")
 ## Activity - attributes, services, and characteristics.
 
 ### Feature request
 Customers can find our device with a unique name now, but it doesn't use a unique name when the device service is queried.
-
-### Background
-We have three very generic terms to disambiguate.
-* Attribute is the data format used to structure metadata and the data into fields.
-* Service is the endpoint to access some capability of the server.
-* Characteristic is the data the service provides.
 
 ### Tasks
 1. Connect to your device with your phone and look at what are the services the device provides.
@@ -51,19 +45,17 @@ We have three very generic terms to disambiguate.
     1. Characteristics and services have a globally unique defined type and identity, set by the Bluetooth standard.
     1. Custom characteristics and services are allowed to be specified with a universally unique identifier (UUID). The counter service is an example of this.
 1. Flash your controller and see if the service has changed.
+![Task Device Name](pics/ECE_6785_Gatt_Counter.png "Task Device Name")
 
 ## Activity - HCI packet handling.
 
 ### Feature request
 We need to improve our debugging by logging whenever a client connects to our device.
 
-### Background
-BTStack uses an event loop which executes callbacks in response to activity in different layers of the stack. Multiple callback handlers can be created for each layer. Recall that the HCI is the point where packets are transferred to the host from the controller. In the code we have two handlers for HCI packet data (conveniently named `packet_handler`). One in the `gatt_counter.c` file is responsible for handling activity related to our counter. The other is in `pico_bt_example_freertos.c`, which logs the device address when Bluetooth is initialized.
-
 ### Tasks
 1. In `picow_bt_example_freertos.c`, modify the packet handler to log when the number of connections has changed.
 1. Hint: The different types of events and helpers to extract event data from the packet are located in `bstack_event.h`
-
+ ![Task Device Connections](pics/connections.png "Task Device Connections")
 ## Activity - add a service
 
 ### Feature Request

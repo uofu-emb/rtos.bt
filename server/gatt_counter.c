@@ -99,7 +99,7 @@ const uint8_t adv_data[] = {
     // Flags general discoverable
     0x02, BLUETOOTH_DATA_TYPE_FLAGS, APP_AD_FLAGS,
     // Name
-    11, BLUETOOTH_DATA_TYPE_COMPLETE_LOCAL_NAME, 'A', 's', 'h', 't', 'o', 'n', ' ', 'B', 'L', 'E',
+    11, BLUETOOTH_DATA_TYPE_COMPLETE_LOCAL_NAME, 'L', 'a', 'b', '1', '1', ' ', 'B', 'L', 'E',
     // Incomplete List of 16-bit Service Class UUIDs -- FF10 - only valid for testing!
     0x03, BLUETOOTH_DATA_TYPE_INCOMPLETE_LIST_OF_16_BIT_SERVICE_CLASS_UUIDS, 0x10, 0xff,
 };
