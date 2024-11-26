@@ -1,15 +1,4 @@
-# Wireless communication with Bluetooth
-
-# Learning objectives
-* Describe difference between Bluetooth classic and Bluetooth LE.
-* Explain the basic principles of radio modulation and Bluetooth physical layer
-* Place network technologies into the context of the OSI model.
-* Identify security vulnerabilities in wireless network technologies.
-* Implement a Bluetooth LE service.
-* Work with library code.
-* Work with and expand an existing system.
-
-# Lab
+# Lab 11 Wireless communication with Bluetooth
 
 ## Activity - advertising
 
