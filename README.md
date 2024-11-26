@@ -78,6 +78,6 @@ You can use the raw id, or the corresponding constants are defined in bluetooth_
 1. In the `att_read_callback`, return the data if the handle is the temperature value handle.
     1. The data is floating point, you could convert it to centidegrees like `data = (uint16_t)(temp_measurement*100);`
     1. You could also use a union to send the bytes for the floating point number directly.
-    ![Task Device Temperature](../pics/ECE_6785_Gatt_Counter.png "Task Device Temperature")
+    ![Task Device Temperature](pics/ECE_6785_Gatt_Counter.png "Task Device Temperature")
 
 
