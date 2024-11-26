@@ -1,3 +1,74 @@
+# # == DO NOT EDIT THE FOLLOWING LINES for the Raspberry Pi Pico VS Code Extension to work ==
+# if(WIN32)
+#     set(USERHOME $ENV{USERPROFILE})
+# else()
+#     set(USERHOME $ENV{HOME})
+# endif()
+# set(sdkVersion 2.0.0)
+# set(toolchainVersion 13_2_Rel1)
+# set(picotoolVersion 2.0.0)
+# set(picoVscode ${USERHOME}/.pico-sdk/cmake/pico-vscode.cmake)
+# if (EXISTS ${picoVscode})
+#     include(${picoVscode})
+# endif()
+# # ====================================================================================
+
+# # == DO NEVER EDIT THE NEXT LINES for Raspberry Pi Pico VS Code Extension to work ==
+# if(WIN32)
+#     set(USERHOME $ENV{USERPROFILE})
+# else()
+#     set(USERHOME $ENV{HOME})
+# endif()
+# set(sdkVersion 2.0.0)
+# set(toolchainVersion 13_2_Rel1)
+# set(picotoolVersion 2.0.0)
+# if(EXISTS ${USERHOME}/.pico-sdk/cmake/pico-vscode.cmake)
+#     include(${USERHOME}/.pico-sdk/cmake/pico-vscode.cmake)
+# elseif(DEFINED ENV{PICO_SDK_PATH})
+#     set(PICO_SDK_PATH $ENV{PICO_SDK_PATH})
+# else()
+#     set(PICO_SDK_PATH lib/pico-sdk)
+# endif()
+
+# if(DEFINED ENV{FREERTOS_PATH})
+#     set(FREERTOS_PATH $ENV{FREERTOS_PATH})
+# else()
+#     set(FREERTOS_PATH lib/freertos)
+# endif()
+# # if(DEFINED ENV{FREERTOS_KERNEL_PATH})
+# #     set(FREERTOS_KERNEL_PATH $ENV{FREERTOS_KERNEL_PATH})
+# # else()
+# #     set(FREERTOS_KERNEL_PATH lib/freertos)
+# # endif()
+# #message("FreeRTOS path: ${FREERTOS_KERNEL_PATH}")
+
+# if(DEFINED ENV{PICO_EXTRAS_PATH})
+#     set(PICO_EXTRAS_PATH $ENV{PICO_EXTRAS_PATH})
+# else()
+#     set(PICO_EXTRAS_PATH ${CMAKE_CURRENT_LIST_DIR}/lib/pico-extras)
+# endif()
+# #set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
+# # ====================================================================================
+# cmake_minimum_required(VERSION 3.13)
+
+# set(CMAKE_C_STANDARD 11)
+# set(CMAKE_CXX_STANDARD 17)
+# set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
+
+# # This sets the variant of the board. We are using the pico_w
+# set(PICO_BOARD pico_w CACHE STRING "Board type")
+
+# # This imports the Pico SDK (must be included before the project)
+# include(${PICO_SDK_PATH}/pico_sdk_init.cmake)
+
+# # This imports the library configuration for FreeRTOS
+# include(${FREERTOS_KERNEL_PATH}/portable/ThirdParty/GCC/RP2040/FreeRTOS_Kernel_import.cmake)
+
+# # Pull in PICO SDK (must be before project)
+# include(pico_sdk_import.cmake)
+
+# # Import pico_extra
+# include(pico_extras_import.cmake)
 # == DO NOT EDIT THE FOLLOWING LINES for the Raspberry Pi Pico VS Code Extension to work ==
 if(WIN32)
     set(USERHOME $ENV{USERPROFILE})
@@ -29,14 +100,12 @@ else()
     set(PICO_SDK_PATH lib/pico-sdk)
 endif()
 
-if(DEFINED ENV{FREERTOS_KERNEL_PATH})
-    set(FREERTOS_KERNEL_PATH $ENV{FREERTOS_KERNEL_PATH})
+if(DEFINED ENV{FREERTOS_PATH})
+    set(FREERTOS_PATH $ENV{FREERTOS_PATH})
 else()
-    set(FREERTOS_KERNEL_PATH lib/freertos)
+    set(FREERTOS_PATH lib/freertos)
 endif()
-message("FreeRTOS path: ${FREERTOS_KERNEL_PATH}")
 
-set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 # ====================================================================================
 cmake_minimum_required(VERSION 3.13)
 
@@ -51,7 +120,10 @@ set(PICO_BOARD pico_w CACHE STRING "Board type")
 include(${PICO_SDK_PATH}/pico_sdk_init.cmake)
 
 # This imports the library configuration for FreeRTOS
-include(${FREERTOS_KERNEL_PATH}/portable/ThirdParty/GCC/RP2040/FreeRTOS_Kernel_import.cmake)
+include(${FREERTOS_PATH}/portable/ThirdParty/GCC/RP2040/FreeRTOS_Kernel_import.cmake)
+
+# Pull in PICO SDK (must be before project)
+include(pico_sdk_import.cmake)
 
 # This defines your project name, you can name it anything you want.
 project(lab11 C CXX ASM)
@@ -61,9 +133,11 @@ pico_sdk_init()
 
 # This sets a preprocessor value for use in our code.
 add_compile_definitions(
+    configNUMBER_OF_CORES=2
     PICO_ENTER_USB_BOOT_ON_EXIT=1
 )
 
 # This is where your project header files are located.
-include_directories(${CMAKE_SOURCE_DIR}/include)
+include_directories(${CMAKE_CURRENT_LIST_DIR}/include)
+
 add_subdirectory(server)
