@@ -25,9 +25,9 @@ Our device uses a generic name when advertising. We need to distinguish ourselve
    * The remaining data is UTF8 bytes.
    * You can see more details in the [specification](https://www.bluetooth.com/wp-content/uploads/Files/Specification/HTML/CSS_v11/out/en/supplement-to-the-bluetooth-core-specification/data-types-specification.html)
 1. Flash the program to your microcontroller. When you connect to the serial port, it should print out a message with the device address. "BTstack up and running on 28:CD:C1:0F:1D:DC."
-![Task BTstack](../pics/btstack_up_running.png "Task BTstack")
+![Task BTstack](pics/btstack_up_running.png "Task BTstack")
 1. You should see your device advertised with the name you specified.
-![Task Device Name](../pics/ECE_6785_Gatt_Counter.png "Task Device Name")
+![Task Device Name](pics/ECE_6785_Gatt_Counter.png "Task Device Name")
 ## Activity - attributes, services, and characteristics.
 
 ### Feature request
