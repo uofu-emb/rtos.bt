@@ -1,3 +1,17 @@
+# == DO NOT EDIT THE FOLLOWING LINES for the Raspberry Pi Pico VS Code Extension to work ==
+if(WIN32)
+    set(USERHOME $ENV{USERPROFILE})
+else()
+    set(USERHOME $ENV{HOME})
+endif()
+set(sdkVersion 2.1.0)
+set(toolchainVersion 13_3_Rel1)
+set(picotoolVersion 2.1.0)
+set(picoVscode ${USERHOME}/.pico-sdk/cmake/pico-vscode.cmake)
+if (EXISTS ${picoVscode})
+    include(${picoVscode})
+endif()
+# ====================================================================================
 # == DO NEVER EDIT THE NEXT LINES for Raspberry Pi Pico VS Code Extension to work ==
 if(WIN32)
     set(USERHOME $ENV{USERPROFILE})
@@ -15,12 +29,11 @@ else()
     set(PICO_SDK_PATH lib/pico-sdk)
 endif()
 
-if(DEFINED ENV{FREERTOS_KERNEL_PATH})
-    set(FREERTOS_KERNEL_PATH $ENV{FREERTOS_KERNEL_PATH})
+if(DEFINED ENV{FREERTOS_PATH})
+    set(FREERTOS_PATH $ENV{FREERTOS_PATH})
 else()
-    set(FREERTOS_KERNEL_PATH lib/freertos)
+    set(FREERTOS_PATH lib/freertos)
 endif()
-message("FreeRTOS path: ${FREERTOS_KERNEL_PATH}")
 
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 # ====================================================================================
@@ -37,7 +50,7 @@ set(PICO_BOARD pico_w CACHE STRING "Board type")
 include(${PICO_SDK_PATH}/pico_sdk_init.cmake)
 
 # This imports the library configuration for FreeRTOS
-include(${FREERTOS_KERNEL_PATH}/portable/ThirdParty/GCC/RP2040/FreeRTOS_Kernel_import.cmake)
+include(${FREERTOS_PATH}/portable/ThirdParty/GCC/RP2040/FreeRTOS_Kernel_import.cmake)
 
 # This defines your project name, you can name it anything you want.
 project(lab11 C CXX ASM)
