@@ -12,6 +12,7 @@
 #include "btstack_event.h"
 #include "pico/cyw43_arch.h"
 #include "picow_bt_example_common.h"
+#include <temp_sense.h>
 
 #ifndef RUN_FREERTOS_ON_CORE
 #define RUN_FREERTOS_ON_CORE 0
