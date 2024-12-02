@@ -440,6 +440,7 @@ set(CMAKE_DEPENDS_DEPENDENCY_FILES
   "/home/alex/.pico-sdk/sdk/2.0.0/src/rp2_common/pico_stdlib/stdlib.c" "server/CMakeFiles/lab11_server.dir/home/alex/.pico-sdk/sdk/2.0.0/src/rp2_common/pico_stdlib/stdlib.c.obj" "gcc" "server/CMakeFiles/lab11_server.dir/home/alex/.pico-sdk/sdk/2.0.0/src/rp2_common/pico_stdlib/stdlib.c.obj.d"
   "/home/alex/.pico-sdk/sdk/2.0.0/src/rp2_common/pico_unique_id/unique_id.c" "server/CMakeFiles/lab11_server.dir/home/alex/.pico-sdk/sdk/2.0.0/src/rp2_common/pico_unique_id/unique_id.c.obj" "gcc" "server/CMakeFiles/lab11_server.dir/home/alex/.pico-sdk/sdk/2.0.0/src/rp2_common/pico_unique_id/unique_id.c.obj.d"
   "/home/alex/Desktop/2024_Lab11_Group14/server/picow_bt_example_freertos.c" "server/CMakeFiles/lab11_server.dir/picow_bt_example_freertos.c.obj" "gcc" "server/CMakeFiles/lab11_server.dir/picow_bt_example_freertos.c.obj.d"
+  "/home/alex/Desktop/2024_Lab11_Group14/server/temp_sense.c" "server/CMakeFiles/lab11_server.dir/temp_sense.c.obj" "gcc" "server/CMakeFiles/lab11_server.dir/temp_sense.c.obj.d"
   "/home/alex/.pico-sdk/sdk/2.0.0/src/rp2_common/pico_cxx_options/new_delete.cpp" "server/CMakeFiles/lab11_server.dir/home/alex/.pico-sdk/sdk/2.0.0/src/rp2_common/pico_cxx_options/new_delete.cpp.obj" "gcc" "server/CMakeFiles/lab11_server.dir/home/alex/.pico-sdk/sdk/2.0.0/src/rp2_common/pico_cxx_options/new_delete.cpp.obj.d"
   )
 

@@ -6150,6 +6150,30 @@ picow_bt_example_freertos.c.s:
 	cd /home/alex/Desktop/2024_Lab11_Group14/build && $(MAKE) $(MAKESILENT) -f server/CMakeFiles/lab11_server.dir/build.make server/CMakeFiles/lab11_server.dir/picow_bt_example_freertos.c.s
 .PHONY : picow_bt_example_freertos.c.s
 
+temp_sense.obj: temp_sense.c.obj
+.PHONY : temp_sense.obj
+
+# target to build an object file
+temp_sense.c.obj:
+	cd /home/alex/Desktop/2024_Lab11_Group14/build && $(MAKE) $(MAKESILENT) -f server/CMakeFiles/lab11_server.dir/build.make server/CMakeFiles/lab11_server.dir/temp_sense.c.obj
+.PHONY : temp_sense.c.obj
+
+temp_sense.i: temp_sense.c.i
+.PHONY : temp_sense.i
+
+# target to preprocess a source file
+temp_sense.c.i:
+	cd /home/alex/Desktop/2024_Lab11_Group14/build && $(MAKE) $(MAKESILENT) -f server/CMakeFiles/lab11_server.dir/build.make server/CMakeFiles/lab11_server.dir/temp_sense.c.i
+.PHONY : temp_sense.c.i
+
+temp_sense.s: temp_sense.c.s
+.PHONY : temp_sense.s
+
+# target to generate assembly for a file
+temp_sense.c.s:
+	cd /home/alex/Desktop/2024_Lab11_Group14/build && $(MAKE) $(MAKESILENT) -f server/CMakeFiles/lab11_server.dir/build.make server/CMakeFiles/lab11_server.dir/temp_sense.c.s
+.PHONY : temp_sense.c.s
+
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -6910,6 +6934,9 @@ help:
 	@echo "... picow_bt_example_freertos.obj"
 	@echo "... picow_bt_example_freertos.i"
 	@echo "... picow_bt_example_freertos.s"
+	@echo "... temp_sense.obj"
+	@echo "... temp_sense.i"
+	@echo "... temp_sense.s"
 .PHONY : help
 
 

@@ -610,7 +610,8 @@ server/CMakeFiles/lab11_server.dir/gatt_counter.c.obj: /home/alex/Desktop/2024_L
   /home/alex/.pico-sdk/toolchain/13_2_Rel1/lib/gcc/arm-none-eabi/13.2.1/include/stddef.h \
   /home/alex/.pico-sdk/toolchain/13_2_Rel1/lib/gcc/arm-none-eabi/13.2.1/include/stdint.h \
   server/generated/lab11_server_gatt_header/gatt_counter.h \
-  /home/alex/Desktop/2024_Lab11_Group14/include/btstack_config.h
+  /home/alex/Desktop/2024_Lab11_Group14/include/btstack_config.h \
+  /home/alex/Desktop/2024_Lab11_Group14/include/temp_sense.h
 
 server/CMakeFiles/lab11_server.dir/home/alex/.pico-sdk/sdk/2.0.0/lib/btstack/3rd-party/md5/md5.c.obj: /home/alex/.pico-sdk/sdk/2.0.0/lib/btstack/3rd-party/md5/md5.c \
   /home/alex/.pico-sdk/sdk/2.0.0/lib/btstack/3rd-party/md5/md5.h \
@@ -15846,6 +15847,61 @@ server/CMakeFiles/lab11_server.dir/picow_bt_example_freertos.c.obj: /home/alex/D
   /home/alex/Desktop/2024_Lab11_Group14/lib/freertos/portable/ThirdParty/GCC/RP2040/include/portmacro.h \
   /home/alex/Desktop/2024_Lab11_Group14/lib/freertos/portable/ThirdParty/GCC/RP2040/include/rp2040_config.h
 
+server/CMakeFiles/lab11_server.dir/temp_sense.c.obj: /home/alex/Desktop/2024_Lab11_Group14/server/temp_sense.c \
+  /home/alex/.pico-sdk/sdk/2.0.0/src/boards/include/boards/pico_w.h \
+  /home/alex/.pico-sdk/sdk/2.0.0/src/common/pico_base_headers/include/pico.h \
+  /home/alex/.pico-sdk/sdk/2.0.0/src/common/pico_base_headers/include/pico/assert.h \
+  /home/alex/.pico-sdk/sdk/2.0.0/src/common/pico_base_headers/include/pico/config.h \
+  /home/alex/.pico-sdk/sdk/2.0.0/src/common/pico_base_headers/include/pico/error.h \
+  /home/alex/.pico-sdk/sdk/2.0.0/src/common/pico_base_headers/include/pico/types.h \
+  /home/alex/.pico-sdk/sdk/2.0.0/src/rp2040/hardware_regs/include/hardware/platform_defs.h \
+  /home/alex/.pico-sdk/sdk/2.0.0/src/rp2040/hardware_regs/include/hardware/regs/adc.h \
+  /home/alex/.pico-sdk/sdk/2.0.0/src/rp2040/hardware_regs/include/hardware/regs/addressmap.h \
+  /home/alex/.pico-sdk/sdk/2.0.0/src/rp2040/hardware_regs/include/hardware/regs/intctrl.h \
+  /home/alex/.pico-sdk/sdk/2.0.0/src/rp2040/hardware_regs/include/hardware/regs/io_bank0.h \
+  /home/alex/.pico-sdk/sdk/2.0.0/src/rp2040/hardware_regs/include/hardware/regs/m0plus.h \
+  /home/alex/.pico-sdk/sdk/2.0.0/src/rp2040/hardware_regs/include/hardware/regs/pads_bank0.h \
+  /home/alex/.pico-sdk/sdk/2.0.0/src/rp2040/hardware_regs/include/hardware/regs/sio.h \
+  /home/alex/.pico-sdk/sdk/2.0.0/src/rp2040/hardware_structs/include/hardware/structs/adc.h \
+  /home/alex/.pico-sdk/sdk/2.0.0/src/rp2040/hardware_structs/include/hardware/structs/interp.h \
+  /home/alex/.pico-sdk/sdk/2.0.0/src/rp2040/hardware_structs/include/hardware/structs/io_bank0.h \
+  /home/alex/.pico-sdk/sdk/2.0.0/src/rp2040/hardware_structs/include/hardware/structs/m0plus.h \
+  /home/alex/.pico-sdk/sdk/2.0.0/src/rp2040/hardware_structs/include/hardware/structs/nvic.h \
+  /home/alex/.pico-sdk/sdk/2.0.0/src/rp2040/hardware_structs/include/hardware/structs/pads_bank0.h \
+  /home/alex/.pico-sdk/sdk/2.0.0/src/rp2040/hardware_structs/include/hardware/structs/scb.h \
+  /home/alex/.pico-sdk/sdk/2.0.0/src/rp2040/hardware_structs/include/hardware/structs/sio.h \
+  /home/alex/.pico-sdk/sdk/2.0.0/src/rp2040/pico_platform/include/pico/platform.h \
+  /home/alex/.pico-sdk/sdk/2.0.0/src/rp2040/pico_platform/include/pico/platform/cpu_regs.h \
+  /home/alex/.pico-sdk/sdk/2.0.0/src/rp2_common/cmsis/include/cmsis/rename_exceptions.h \
+  /home/alex/.pico-sdk/sdk/2.0.0/src/rp2_common/hardware_adc/include/hardware/adc.h \
+  /home/alex/.pico-sdk/sdk/2.0.0/src/rp2_common/hardware_base/include/hardware/address_mapped.h \
+  /home/alex/.pico-sdk/sdk/2.0.0/src/rp2_common/hardware_gpio/include/hardware/gpio.h \
+  /home/alex/.pico-sdk/sdk/2.0.0/src/rp2_common/hardware_irq/include/hardware/irq.h \
+  /home/alex/.pico-sdk/sdk/2.0.0/src/rp2_common/pico_platform_compiler/include/pico/platform/compiler.h \
+  /home/alex/.pico-sdk/sdk/2.0.0/src/rp2_common/pico_platform_panic/include/pico/platform/panic.h \
+  /home/alex/.pico-sdk/sdk/2.0.0/src/rp2_common/pico_platform_sections/include/pico/platform/sections.h \
+  /home/alex/.pico-sdk/toolchain/13_2_Rel1/arm-none-eabi/include/_ansi.h \
+  /home/alex/.pico-sdk/toolchain/13_2_Rel1/arm-none-eabi/include/_newlib_version.h \
+  /home/alex/.pico-sdk/toolchain/13_2_Rel1/arm-none-eabi/include/assert.h \
+  /home/alex/.pico-sdk/toolchain/13_2_Rel1/arm-none-eabi/include/machine/_default_types.h \
+  /home/alex/.pico-sdk/toolchain/13_2_Rel1/arm-none-eabi/include/machine/ieeefp.h \
+  /home/alex/.pico-sdk/toolchain/13_2_Rel1/arm-none-eabi/include/newlib.h \
+  /home/alex/.pico-sdk/toolchain/13_2_Rel1/arm-none-eabi/include/stdint.h \
+  /home/alex/.pico-sdk/toolchain/13_2_Rel1/arm-none-eabi/include/sys/_intsup.h \
+  /home/alex/.pico-sdk/toolchain/13_2_Rel1/arm-none-eabi/include/sys/_stdint.h \
+  /home/alex/.pico-sdk/toolchain/13_2_Rel1/arm-none-eabi/include/sys/cdefs.h \
+  /home/alex/.pico-sdk/toolchain/13_2_Rel1/arm-none-eabi/include/sys/config.h \
+  /home/alex/.pico-sdk/toolchain/13_2_Rel1/arm-none-eabi/include/sys/features.h \
+  /home/alex/.pico-sdk/toolchain/13_2_Rel1/lib/gcc/arm-none-eabi/13.2.1/include/stdbool.h \
+  /home/alex/.pico-sdk/toolchain/13_2_Rel1/lib/gcc/arm-none-eabi/13.2.1/include/stddef.h \
+  /home/alex/.pico-sdk/toolchain/13_2_Rel1/lib/gcc/arm-none-eabi/13.2.1/include/stdint.h \
+  generated/pico_base/pico/config_autogen.h \
+  generated/pico_base/pico/version.h \
+  /home/alex/Desktop/2024_Lab11_Group14/include/FreeRTOSConfig.h \
+  /home/alex/Desktop/2024_Lab11_Group14/include/temp_sense.h \
+  /home/alex/Desktop/2024_Lab11_Group14/lib/freertos/portable/ThirdParty/GCC/RP2040/include/freertos_sdk_config.h \
+  /home/alex/Desktop/2024_Lab11_Group14/lib/freertos/portable/ThirdParty/GCC/RP2040/include/rp2040_config.h
+
 
 /home/alex/Desktop/2024_Lab11_Group14/include/picow_bt_example_common.h:
 
@@ -16011,6 +16067,8 @@ pico-sdk/src/rp2_common/pico_cyw43_driver/cyw43_bus_pio_spi.pio.h:
 
 /home/alex/.pico-sdk/sdk/2.0.0/src/rp2_common/hardware_flash/include/hardware/flash.h:
 
+/home/alex/.pico-sdk/sdk/2.0.0/src/rp2040/hardware_regs/include/hardware/regs/ssi.h:
+
 /home/alex/.pico-sdk/sdk/2.0.0/lib/cyw43-driver/src/cyw43_config.h:
 
 /home/alex/.pico-sdk/sdk/2.0.0/lib/lwip/src/core/raw.c:
@@ -16062,8 +16120,6 @@ pico-sdk/src/rp2_common/pico_cyw43_driver/cyw43_bus_pio_spi.pio.h:
 /home/alex/.pico-sdk/sdk/2.0.0/lib/btstack/3rd-party/segger-rtt/SEGGER_RTT.h:
 
 /home/alex/.pico-sdk/sdk/2.0.0/lib/btstack/src/btstack_tlv_none.c:
-
-/home/alex/.pico-sdk/sdk/2.0.0/lib/btstack/src/btstack_slip.c:
 
 /home/alex/.pico-sdk/sdk/2.0.0/lib/lwip/src/include/netif/zepif.h:
 
@@ -16134,8 +16190,6 @@ pico-sdk/src/rp2_common/pico_cyw43_driver/cyw43_bus_pio_spi.pio.h:
 /home/alex/.pico-sdk/sdk/2.0.0/lib/lwip/src/netif/ppp/eui64.c:
 
 /home/alex/.pico-sdk/sdk/2.0.0/lib/btstack/src/ble/le_device_db_tlv.h:
-
-/home/alex/.pico-sdk/sdk/2.0.0/src/rp2040/hardware_regs/include/hardware/regs/ssi.h:
 
 /home/alex/.pico-sdk/sdk/2.0.0/src/common/pico_usb_reset_interface_headers/include/pico/usb_reset_interface.h:
 
@@ -16212,6 +16266,12 @@ pico-sdk/src/rp2_common/pico_cyw43_driver/cyw43_bus_pio_spi.pio.h:
 /home/alex/.pico-sdk/sdk/2.0.0/lib/cyw43-driver/firmware/wb43439A0_7_95_49_00_combined.h:
 
 /home/alex/.pico-sdk/sdk/2.0.0/lib/lwip/src/include/lwip/priv/tcp_priv.h:
+
+/home/alex/.pico-sdk/sdk/2.0.0/lib/btstack/src/btstack_slip.c:
+
+/home/alex/Desktop/2024_Lab11_Group14/include/temp_sense.h:
+
+/home/alex/.pico-sdk/sdk/2.0.0/src/rp2040/hardware_structs/include/hardware/structs/resets.h:
 
 /home/alex/.pico-sdk/sdk/2.0.0/lib/btstack/src/btstack_audio.c:
 
@@ -16442,6 +16502,8 @@ generated/pico_base/pico/version.h:
 /home/alex/.pico-sdk/sdk/2.0.0/src/rp2_common/pico_float/float_math.c:
 
 /home/alex/.pico-sdk/sdk/2.0.0/lib/lwip/src/netif/ppp/lcp.c:
+
+/home/alex/Desktop/2024_Lab11_Group14/server/temp_sense.c:
 
 /home/alex/.pico-sdk/sdk/2.0.0/lib/btstack/3rd-party/yxml/yxml.h:
 
@@ -17160,8 +17222,6 @@ generated/pico_base/pico/config_autogen.h:
 /home/alex/.pico-sdk/sdk/2.0.0/lib/lwip/src/core/tcp_out.c:
 
 /home/alex/.pico-sdk/sdk/2.0.0/src/rp2040/hardware_regs/include/hardware/regs/resets.h:
-
-/home/alex/.pico-sdk/sdk/2.0.0/src/rp2040/hardware_structs/include/hardware/structs/resets.h:
 
 /home/alex/.pico-sdk/sdk/2.0.0/lib/lwip/src/api/netbuf.c:
 
