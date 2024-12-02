@@ -1,5 +1,5 @@
 PRIMARY_SERVICE, GAP_SERVICE
-CHARACTERISTIC, GAP_DEVICE_NAME, READ, "Redtooth"
+CHARACTERISTIC, GAP_DEVICE_NAME, READ, "Grp-11 BLE"
 
 // add Battery Service
 #import <battery_service.gatt>
