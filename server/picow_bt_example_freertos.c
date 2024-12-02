@@ -12,6 +12,7 @@
 #include "btstack_event.h"
 #include "pico/cyw43_arch.h"
 #include "picow_bt_example_common.h"
+#include "temp_sense.h"
 
 #ifndef RUN_FREERTOS_ON_CORE
 #define RUN_FREERTOS_ON_CORE 0
@@ -73,6 +74,7 @@ void main_task(__unused void *params)
 int main()
 {
     stdio_init_all();
+    temperature_setup();
     TaskHandle_t task;
     xTaskCreate(main_task, "TestMainThread", 1024, NULL, TEST_TASK_PRIORITY, &task);
     vTaskStartScheduler();

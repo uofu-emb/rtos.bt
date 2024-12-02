@@ -55,6 +55,7 @@
 #include "gatt_counter.h"
 #include "btstack.h"
 #include "ble/gatt-service/battery_service_server.h"
+#include "temp_sense.h"
 
 #define HEARTBEAT_PERIOD_MS 1000
 
@@ -180,7 +181,7 @@ static void heartbeat_handler(struct btstack_timer_source *ts){
  */
 
 /* LISTING_START(packetHandler): Packet Handler */
-static void packet_handler (uint8_t packet_type, uint16_t channel, uint8_t *packet, uint16_t size){
+static void packet_handler(uint8_t packet_type, uint16_t channel, uint8_t *packet, uint16_t size){
     UNUSED(channel);
     UNUSED(size);
 
@@ -218,8 +219,14 @@ static void packet_handler (uint8_t packet_type, uint16_t channel, uint8_t *pack
 static uint16_t att_read_callback(hci_con_handle_t connection_handle, uint16_t att_handle, uint16_t offset, uint8_t * buffer, uint16_t buffer_size){
     UNUSED(connection_handle);
 
-    if (att_handle == ATT_CHARACTERISTIC_0000FF11_0000_1000_8000_00805F9B34FB_01_VALUE_HANDLE){
+    if (att_handle == ATT_CHARACTERISTIC_0000FF11_0000_1000_8000_00805F9B34FB_01_VALUE_HANDLE) {
         return att_read_callback_handle_blob((const uint8_t *)counter_string, counter_string_len, offset, buffer, buffer_size);
+    }
+    if (att_handle == ATT_CHARACTERISTIC_ORG_BLUETOOTH_CHARACTERISTIC_TEMPERATURE_01_VALUE_HANDLE) {
+        float reading = temperature_poll();
+        printf("Measured temperature: %0.2f\n", reading);
+        uint16_t temp = (uint16_t)(reading * 100);
+        return att_read_callback_handle_little_endian_16(temp, offset, buffer, buffer_size);
     }
     return 0;
 }
