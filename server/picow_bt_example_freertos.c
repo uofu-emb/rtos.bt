@@ -61,6 +61,11 @@ static void packet_handler(uint8_t packet_type, uint16_t channel, uint8_t *packe
                 printf("Disconnection failed with status: 0x%02x\n", packet[2]);
             }
             break;
+        // this is working as well 
+        
+        // case BTSTACK_EVENT_NR_CONNECTIONS_CHANGED:
+        // printf("Total connections: %d\n",  btstack_event_nr_connections_changed_get_number_connections(packet));
+        // break;
 
         default:
             break;
