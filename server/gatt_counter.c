@@ -51,12 +51,18 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-
+#include <FreeRTOS.h>
+#include <task.h>
+#include <semphr.h>
+#include <btstack.h>
+#include <ble/att_db.h>
+#include <ble/gatt-service/battery_service_server.h>
 #include "gatt_counter.h"
-#include "btstack.h"
-#include "ble/gatt-service/battery_service_server.h"
+#include "temp_sense.h"
 
 #define HEARTBEAT_PERIOD_MS 1000
+#define TEMP_TASK_PRIORITY (tskIDLE_PRIORITY + 3UL)
+
 
 /* @section Main Application Setup
  *
@@ -77,6 +83,10 @@ static btstack_packet_callback_registration_t hci_event_callback_registration;
 static hci_con_handle_t con_handle;
 static uint8_t battery = 100;
 
+static SemaphoreHandle_t temp_semaphore;
+static float temp_measurement;
+static TaskHandle_t temp_task;
+
 static void packet_handler (uint8_t packet_type, uint16_t channel, uint8_t *packet, uint16_t size);
 static uint16_t att_read_callback(hci_con_handle_t con_handle, uint16_t att_handle, uint16_t offset, uint8_t * buffer, uint16_t buffer_size);
 static int att_write_callback(hci_con_handle_t con_handle, uint16_t att_handle, uint16_t transaction_mode, uint16_t offset, uint8_t *buffer, uint16_t buffer_size);
@@ -89,7 +99,7 @@ const uint8_t adv_data[] = {
     // Flags general discoverable
     0x02, BLUETOOTH_DATA_TYPE_FLAGS, APP_AD_FLAGS,
     // Name
-    11, BLUETOOTH_DATA_TYPE_COMPLETE_LOCAL_NAME, 'A', 's', 'h', 't', 'o', 'n', ' ', 'B', 'L', 'E',
+    11, BLUETOOTH_DATA_TYPE_COMPLETE_LOCAL_NAME, 'L', 'a', 'b', '1', '1', ' ', 'B', 'L', 'E',
     // Incomplete List of 16-bit Service Class UUIDs -- FF10 - only valid for testing!
     0x03, BLUETOOTH_DATA_TYPE_INCOMPLETE_LIST_OF_16_BIT_SERVICE_CLASS_UUIDS, 0x10, 0xff,
 };
@@ -215,14 +225,63 @@ static void packet_handler (uint8_t packet_type, uint16_t channel, uint8_t *pack
 // - if buffer == NULL, don't copy data, just return size of value
 // - if buffer != NULL, copy data and return number bytes copied
 // @param offset defines start of attribute value
-static uint16_t att_read_callback(hci_con_handle_t connection_handle, uint16_t att_handle, uint16_t offset, uint8_t * buffer, uint16_t buffer_size){
-    UNUSED(connection_handle);
 
+
+// static uint16_t att_read_callback(hci_con_handle_t connection_handle, uint16_t att_handle, uint16_t offset, uint8_t * buffer, uint16_t buffer_size){
+//     UNUSED(connection_handle);
+
+//     if (att_handle == ATT_CHARACTERISTIC_0000FF11_0000_1000_8000_00805F9B34FB_01_VALUE_HANDLE){
+//         return att_read_callback_handle_blob((const uint8_t *)counter_string, counter_string_len, offset, buffer, buffer_size);
+//     }
+//     return 0;
+// }
+
+//static uint16_t temp_handle = 0; // Replace with actual handle from GATT generation
+
+static uint16_t att_read_callback(uint16_t connection_handle, uint16_t att_handle, uint16_t offset, uint8_t * buffer, uint16_t buffer_size) {
+    // if (attribute_handle == temp_handle) {
+    //     float temperature = temperature_poll(); // Get the temperature
+    //     uint16_t temp_data = (uint16_t)(temperature * 100); // Convert to centidegrees
+        
+    //     if (buffer) {
+    //         buffer[0] = temp_data & 0xFF;
+    //         buffer[1] = (temp_data >> 8) & 0xFF;
+    //     }
+    //     return 2; // Number of bytes in the temperature data
+    // }
+    // return 0;
+     UNUSED(connection_handle);
+    printf("Read %d\n", att_handle);
     if (att_handle == ATT_CHARACTERISTIC_0000FF11_0000_1000_8000_00805F9B34FB_01_VALUE_HANDLE){
         return att_read_callback_handle_blob((const uint8_t *)counter_string, counter_string_len, offset, buffer, buffer_size);
+    } else if (att_handle == ATT_CHARACTERISTIC_ORG_BLUETOOTH_CHARACTERISTIC_TEMPERATURE_01_VALUE_HANDLE) {
+        /* Alternatively you could send the raw bytes for the floating point
+        union {
+            float raw;
+            uint8_t bytes[4];
+        } u;
+
+        if (xSemaphoreTake(temp_semaphore, 1)) {
+            u.raw = temp_measurement;
+            xSemaphoreGive(temp_semaphore);
+        }
+        return att_read_callback_handle_blob((const uint8_t *)&u.bytes, 4, offset, buffer, buffer_size);
+        */
+
+        printf("Measured temperature: %0.2f\n", temp_measurement);
+        uint16_t data = 0;
+        if (xSemaphoreTake(temp_semaphore, 1)) {
+            data = (uint16_t)(temp_measurement*100);
+            xSemaphoreGive(temp_semaphore);
+        }
+        return att_read_callback_handle_little_endian_16(data, offset, buffer, buffer_size);
+    } else {
+        return 0;
     }
-    return 0;
 }
+
+
+
 /* LISTING_END */
 
 
@@ -255,11 +314,40 @@ static int att_write_callback(hci_con_handle_t connection_handle, uint16_t att_h
 }
 /* LISTING_END */
 
+// int btstack_main(void);
+// int btstack_main(void)
+// {
+//     le_counter_setup();
+
+//     // turn on!
+// 	hci_power_control(HCI_POWER_ON);
+
+//     return 0;
+// }
+// /* EXAMPLE_END */
+
+static void temperature_task(__unused void *args)
+{
+    while (true) {
+        float temp = temperature_poll();
+        if (xSemaphoreTake(temp_semaphore, 10)) {
+            temp_measurement = temp;
+            xSemaphoreGive(temp_semaphore);
+        } else {
+            printf("Unable to acquire semaphore\n");
+        }
+        vTaskDelay(100);
+    }
+}
+
 int btstack_main(void);
 int btstack_main(void)
 {
     le_counter_setup();
-
+    temperature_setup();
+    temp_semaphore = xSemaphoreCreateMutex();
+    xSemaphoreGive(temp_semaphore);
+    xTaskCreate(temperature_task, "TemperatureThread", 1024, NULL, TEMP_TASK_PRIORITY, &temp_task);
     // turn on!
 	hci_power_control(HCI_POWER_ON);
 
